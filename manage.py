@@ -1,14 +1,12 @@
-import os
 import config
-from datetime import timedelta
-from flask import Flask
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect
 from api import api
 from util import login_required
+from models import StuInfo, app
 
-app = Flask(__name__)
 app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['PERMANENT_SESSION_LIFETIME'] = config.PERMANENT_SESSION_LIFETIME
+app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 
 
 @app.route('/', methods=["GET"])

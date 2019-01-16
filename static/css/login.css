@@ -8,12 +8,16 @@
 #forget{
   float: right;
 }
-
+.title{
+  text-align: center;
+  font-weight: 400;
+  font-size: 28px;
+}
 
 @media screen and (min-width: 800px) {
   .login-box {
     width: 25%;
-    margin: 20% auto;
+    margin: 15% auto;
   }
 }
 @media screen and (max-width: 800px) {

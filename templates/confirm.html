@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<div v-cloak class="confirm-box" id="app">
+<div v-cloak v-loading.fullscreen.lock="loading" class="confirm-box" id="app">
     <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="当前状态">
             <el-tag v-if="isConfirm" type="success">信息已确认</el-tag>
@@ -23,17 +23,41 @@
     <el-form-item label="身份证号">
         <el-input :disabled="true" v-model="form.idCard"></el-input>
     </el-form-item>
+    <el-form-item label="学号">
+        <el-input :disabled="true" v-model="form.sNumber"></el-input>
+    </el-form-item>
     <el-form-item label="照片">
         <img v-if="hasImg" src="/api/getImg" class="avatar">
         <el-upload v-else
-          class="avatar-uploader"
-          action="/api/uploadImg"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                   class="avatar-uploader"
+                   action="/api/uploadImg"
+                   :show-file-list="false"
+                   :on-success="handleAvatarSuccess"
+                   :before-upload="beforeAvatarUpload">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
+    </el-form-item>
+    <el-form-item label="性别">
+        <el-input :disabled="true" v-model="form.sex"></el-input>
+    </el-form-item>
+    <el-form-item label="职业">
+        <el-input :disabled="true" v-model="form.profession"></el-input>
+    </el-form-item>
+    <el-form-item label="民族">
+        <el-input :disabled="true" v-model="form.nation"></el-input>
+    </el-form-item>
+    <el-form-item label="工作单位">
+        <el-input :disabled="true" v-model="form.workUnit"></el-input>
+    </el-form-item>
+    <el-form-item label="所在院系">
+        <el-input :disabled="true" v-model="form.department"></el-input>
+    </el-form-item>
+    <el-form-item label="所在班级">
+        <el-input :disabled="true" v-model="form.classId"></el-input>
+    </el-form-item>
+    <el-form-item label="报考级别">
+        <el-input :disabled="true" v-model="form.rank"></el-input>
     </el-form-item>
 </el-form>
 <el-button class="reLogin" @click="reLogin" type="primary">重新登录</el-button>

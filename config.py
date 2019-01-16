@@ -10,9 +10,13 @@ PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 DB_HOST = '115.159.209.36'
 DB_USER = 'root'
 DB_PASS = '615598813'
+DB_DB = 'putonghua'
+DB_URI = 'mysql+pymysql://{}:{}@{}:3306/{}'.format(DB_USER, DB_PASS, DB_HOST, DB_DB)
 
 
 class ErrCode:
     SUCCESS = 0
     SESSION_ERR = 1
     LOGIN_ERR = 2
+    CONFIRM_ERR = 3
+    FORMINFO_ERR = 4

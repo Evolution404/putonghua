@@ -2,6 +2,7 @@ import os
 from flask import Blueprint, request, session, jsonify, send_from_directory
 from config import ErrCode
 from util import login_required
+from models import db, StuInfo, Application
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -10,9 +11,13 @@ api = Blueprint('api', __name__, url_prefix='/api')
 def loginCheck():
     name = request.json['name']
     password = request.json['password']
-    if password=='22' and name == '11':
-        session['id'] = '11'
-        return jsonify(errno=ErrCode.SUCCESS, msg='ok')
+    # 查询到的当前姓名的记录, 可能有重名
+    lists = StuInfo.query.filter_by(name=name)
+    for i in lists:
+        # 取到身份证号后六位为密码
+        if i.idCard[-6:] == password:
+            session['id'] = i.idCard
+            return jsonify(errno=ErrCode.SUCCESS, msg='ok')
     return jsonify(errno=ErrCode.LOGIN_ERR, msg='invalid username or password')
 
 
@@ -26,13 +31,32 @@ def reLogin():
 @api.route('/formInfo', methods=["GET"])
 @login_required
 def formInfo():
-    info = {
-        'name': 'zyx',
-        'idCard': '11',
-        'hasImg': False,
-        'isConfirm': True,
-    }
-    return jsonify(errno=ErrCode.SUCCESS, msg='ok', data=info)
+    idCard = session.get('id')
+    isConfirm = False
+    hasImg = False
+    appQueryRs = Application.query.filter_by(idCard=idCard).first()
+    stuQueryRs = StuInfo.query.filter_by(idCard=idCard).first()
+    if appQueryRs:
+        isConfirm = True
+    if os.path.exists('./photo/{}.jpg'.format(idCard)):
+        hasImg = True
+    if stuQueryRs:
+        info = {
+            'name': stuQueryRs.name,
+            'idCard': idCard,
+            'sNumber': stuQueryRs.sNumber,
+            'sex': stuQueryRs.sex,
+            'profession': stuQueryRs.profession,
+            'nation': stuQueryRs.nation,
+            'workUnit': stuQueryRs.workUnit,
+            'department': stuQueryRs.department,
+            'classId': stuQueryRs.classId,
+            'rank': stuQueryRs.rank,
+            'hasImg': hasImg,
+            'isConfirm': isConfirm,
+        }
+        return jsonify(errno=ErrCode.SUCCESS, msg='ok', data=info)
+    return jsonify(errno=ErrCode.FORMINFO_ERR, msg='not found session id')
 
 
 @api.route('/uploadImg', methods=["POST"])
@@ -53,3 +77,15 @@ def getImg():
     idCard = session['id']
     filename = idCard+'.jpg'
     return send_from_directory(path, filename)
+
+
+@api.route('/confirm', methods=['POST'])
+@login_required
+def confirm():
+    idCard = session['id']
+    appQueryRs = Application.query.filter_by(idCard=idCard).first()
+    if appQueryRs:
+        return jsonify(errno=ErrCode.CONFIRM_ERR, msg='please not double check')
+    db.session.add(Application(idCard=idCard))
+    db.session.commit()
+    return jsonify(errno=ErrCode.SUCCESS, msg='ok')
