@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>确认信息-普通话考试报名系统</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/confirm.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+
+<body>
+<div v-cloak class="confirm-box" id="app">
+    <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="当前状态">
+            <el-tag v-if="isConfirm" type="success">信息已确认</el-tag>
+            <el-tag v-else type="danger">信息未确认</el-tag>
+        </el-form-item>
+  <el-form-item label="姓名">
+    <el-input :disabled="true" v-model="form.name"></el-input>
+  </el-form-item>
+    <el-form-item label="身份证号">
+        <el-input :disabled="true" v-model="form.idCard"></el-input>
+    </el-form-item>
+    <el-form-item label="照片">
+        <img v-if="hasImg" src="/api/getImg" class="avatar">
+        <el-upload v-else
+          class="avatar-uploader"
+          action="/api/uploadImg"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+    </el-form-item>
+</el-form>
+<el-button class="reLogin" @click="reLogin" type="primary">重新登录</el-button>
+<el-button class="confimBtn" @click="confirmInfo" type="success">核对无误</el-button>
+</div>
+</body>
+<script type="text/javascript" src="/static/js/vue.js"></script>
+<script type="text/javascript" src="/static/js/index.js"></script>
+<script type="text/javascript" src="/static/js/axios.min.js"></script>
+<script type="text/javascript" src="/static/js/confirm.js"></script>
+</html>

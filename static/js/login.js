@@ -5,7 +5,7 @@ new Vue({
       password: ''
     },
     methods: {
-      check: function(event) {
+      check: function() {
         //获取值
         var name = this.name;
         var password = this.password;
@@ -28,6 +28,7 @@ new Vue({
                       message: '登陆成功',
                       type: 'success'
                   })
+                  location.href = '/confirm';
               }else{
                   self.$message({
                       message: '用户名或密码错误',
