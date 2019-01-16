@@ -1,0 +1,23 @@
+.el-row {
+  margin-bottom: 20px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+#forget{
+  float: right;
+}
+
+
+@media screen and (min-width: 800px) {
+  .login-box {
+    width: 25%;
+    margin: 20% auto;
+  }
+}
+@media screen and (max-width: 800px) {
+  .login-box {
+    width: 80%;
+    margin: 30% auto;
+  }
+}

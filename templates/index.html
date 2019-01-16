@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>登录-普通话考试报名系统</title>
+  <link rel="stylesheet" href="/static/css/index.css">
+  <link rel="stylesheet" href="/static/css/login.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+
+<body>
+  <div v-cloak class="login-box" id="app">
+    <el-row>
+      <el-col >
+        <el-input id="name" v-model="name" placeholder="请输入姓名">
+          <template slot="prepend">姓名</template>
+        </el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col >
+        <el-input id="password" v-model="password" type="password" placeholder="请输入密码">
+          <template slot="prepend">密码</template>
+        </el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col >
+        <el-button id="login" v-on:click="check" style="width:100%" type="primary">登录</el-button>
+      </el-col>
+    </el-row>
+      <el-row>
+          <el-col >
+              <el-button id="forget" @click="forget" type="warning" plain>忘记密码</el-button>
+          </el-col>
+      </el-row>
+  </div>
+</body>
+<script type="text/javascript" src="/static/js/vue.js"></script>
+<script type="text/javascript" src="/static/js/index.js"></script>
+<script type="text/javascript" src="/static/js/axios.min.js"></script>
+<script type="text/javascript" src="/static/js/login.js"></script>
+</html>
