@@ -6,7 +6,6 @@ from models import StuInfo, app
 
 app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['PERMANENT_SESSION_LIFETIME'] = config.PERMANENT_SESSION_LIFETIME
-app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
 
 
 @app.route('/', methods=["GET"])

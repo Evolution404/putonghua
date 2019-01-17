@@ -65,7 +65,8 @@ def uploadImg():
     f = request.files['file']
     basepath = os.path.dirname(__file__)  # 当前文件所在路径
     # 上传的文件名字是身份证号加'.jpg'
-    upload_path = os.path.join(basepath, 'photo', session['id']+'.jpg')
+    # 新上传的图片使用_new标记, 当确认信息之后进行改名
+    upload_path = os.path.join(basepath, 'photo', session['id']+'_new.jpg')
     f.save(upload_path)
     return jsonify(errno=ErrCode.SUCCESS, msg='ok')
 
@@ -76,6 +77,9 @@ def getImg():
     path = os.getcwd() + '/photo'
     idCard = session['id']
     filename = idCard+'.jpg'
+    # 如果存在_new标记的图片就返回_new标记图片
+    if not os.path.exists(path+'/'+filename):
+        filename = idCard + '_new.jpg'
     return send_from_directory(path, filename)
 
 
@@ -86,6 +90,9 @@ def confirm():
     appQueryRs = Application.query.filter_by(idCard=idCard).first()
     if appQueryRs:
         return jsonify(errno=ErrCode.CONFIRM_ERR, msg='please not double check')
+    newPhotoName = './photo/{}_new.jpg'.format(idCard)
+    if os.path.exists(newPhotoName):
+        os.rename(newPhotoName, newPhotoName.replace('_new', ''))
     db.session.add(Application(idCard=idCard))
     db.session.commit()
     return jsonify(errno=ErrCode.SUCCESS, msg='ok')
