@@ -11,6 +11,8 @@ api = Blueprint('api', __name__, url_prefix='/api')
 def loginCheck():
     name = request.json['name']
     password = request.json['password']
+    # 用户可能输入的是小写的x
+    password = password.replace('x', 'X')
     # 查询到的当前姓名的记录, 可能有重名
     lists = StuInfo.query.filter_by(name=name)
     for i in lists:
