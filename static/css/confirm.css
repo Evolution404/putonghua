@@ -1,6 +1,15 @@
+.errorBtn{
+    float: right;
+}
+.el-button--error{
+    color: #fff;
+    background-color: #ff4d51;
+    border-color: #ff4d51;
+}
 .confimBtn{
     float: right;
 }
+
 
 /*大屏幕*/
 @media screen and (min-width: 800px) {

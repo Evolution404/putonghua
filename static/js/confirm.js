@@ -67,6 +67,12 @@ new Vue({
             });
         })
       },
+      confirmError(){
+          this.$message({
+                          type: 'warning',
+                          message: '请联系辅导员或相关老师'
+                      });
+      },
       confirmInfo(){
           if(!this.hasImg){
               this.$notify.error({

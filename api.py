@@ -9,12 +9,10 @@ api = Blueprint('api', __name__, url_prefix='/api')
 
 @api.route('/loginCheck', methods=["POST"])
 def loginCheck():
-    name = request.json['name']
+    sNumber = request.json['sNumber']
     password = request.json['password']
-    # 用户可能输入的是小写的x
-    password = password.replace('x', 'X')
-    # 查询到的当前姓名的记录, 可能有重名
-    lists = StuInfo.query.filter_by(name=name)
+    # 查询到的当前学号的记录
+    lists = StuInfo.query.filter_by(sNumber=sNumber)
     for i in lists:
         # 取到身份证号后六位为密码
         if i.idCard[-6:] == password:
@@ -76,11 +74,12 @@ def uploadImg():
 @api.route('/getImg', methods=['GET'])
 @login_required
 def getImg():
-    path = os.getcwd() + '/photo'
+    path = os.path.join(os.getcwd(),'photo')
     idCard = session['id']
     filename = idCard+'.jpg'
     # 如果存在_new标记的图片就返回_new标记图片
-    if not os.path.exists(path+'/'+filename):
+    filepath = os.path.join(path,filename)
+    if not os.path.exists(filepath):
         filename = idCard + '_new.jpg'
     return send_from_directory(path, filename)
 

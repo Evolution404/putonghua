@@ -1,16 +1,16 @@
 new Vue({
     el: '#app',
     data: {
-      name: '',
+      sNumber: '',
       password: ''
     },
     methods: {
       check: function() {
         //获取值
-        var name = this.name;
+        var sNumber = this.sNumber;
         var password = this.password;
         let self = this
-        if (name == '' || password == '') {
+        if (sNumber == '' || password == '') {
           this.$message({
             message: '账号或密码为空！',
             type: 'warning'
@@ -18,7 +18,7 @@ new Vue({
           return;
         }
         axios.post('/api/loginCheck', {
-            name,
+            sNumber,
             password
           })
           .then(function(response) {
