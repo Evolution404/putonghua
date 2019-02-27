@@ -27,7 +27,7 @@
         <el-input :disabled="true" v-model="form.sNumber"></el-input>
     </el-form-item>
     <el-form-item label="照片">
-        <img v-if="hasImg" src="/api/getImg" class="avatar">
+        <img v-if="hasImg" :src="'/api/getImg?'+now" class="avatar">
         <el-upload v-else
                    class="avatar-uploader"
                    action="/api/uploadImg"

@@ -1,5 +1,10 @@
 new Vue({
     el: '#app',
+    computed:{
+        now(){
+            return Date.now();
+        }
+    },
     mounted(){
         self = this
         axios.get('/api/formInfo')
